@@ -1,4 +1,4 @@
-let intervals = {
+export default {
   data() {
     return {
       intervals: [],
@@ -24,5 +24,3 @@ let intervals = {
     },
   },
 };
-
-export default intervals;
