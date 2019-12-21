@@ -3,18 +3,15 @@
         <enemy-stone
             :activated="enemies[0].active"
             :enemy-id="0"
-            theme="yellow"
             @changed="changedEnemy"
-            @moved-enemy="movedEnemy"
+            @moved="movedEnemy"
         />
-        <enemy-stone
+        <enemy-tree
             :activated="enemies[1].active"
             :enemy-id="1"
-            theme="green"
             @changed="changedEnemy"
-            @moved-enemy="movedEnemy"
+            @moved="movedEnemy"
         />
-        <enemy-tree />
     </div>
 </template>
 
@@ -99,10 +96,20 @@
   }
 </script>
 
-<style scoped>
+<style lang="less">
     .enemies-wrap {
-        position: relative;
-        top: 41px;
-        right: 0px;
+        height: 60px;
+        &:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        .enemy {
+            position: absolute;
+            border: 2px solid #cc473f;
+            &.hidden {
+                display: none;
+            }
+        }
     }
 </style>

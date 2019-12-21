@@ -6,8 +6,8 @@ export default {
     return {
       type: '',
 
-      startPosition: 300,
-      endPosition: 50,
+      startPosition: 250,
+      endPosition: -50,
 
       x: 0,
       y: 0,
@@ -54,9 +54,9 @@ export default {
      * @param value
      */
     y(value) {
-      this.$emit('moved-enemy', this.y);
+      this.$emit('moved', this.y);
 
-      if (value < -this.endPosition) {
+      if (value < this.endPosition) {
         this.$emit('changed', this.enemyId, false);
         this.clearTimeouts();
       }

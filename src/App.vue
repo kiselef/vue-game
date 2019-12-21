@@ -25,7 +25,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     document.addEventListener("keydown", (event) => {
       if (event.code === 'Space') {
         this.$refs.mover.down()
@@ -53,9 +53,9 @@ export default {
       mutations.start();
     },
 
-    enemyMoved(link) {
+    enemyMoved(enemyY) {
       const mover = this.$refs.mover;
-      if (link <= mover.y + mover.w && link >= mover.y) {
+      if (enemyY <= mover.y + mover.w && enemyY >= mover.y) {
         if (this.$refs.mover.x > -15) {
           console.log('game over');
           mutations.gameOver();

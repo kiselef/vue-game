@@ -1,17 +1,21 @@
 <template>
-    <div
-        class="enemy enemy-stone"
-        :style="{top: x + 'px', left: y + 'px', width: `${w}px`, height: `${h}px`, backgroundColor: this.theme}"
-        :class="{hidden: !this.activated}"
-    ></div>
+    <enemy-item
+        class="enemy-stone"
+        :x="x"
+        :y="y"
+        :w="w"
+        :h="h"
+        :activated="activated"
+    />
 </template>
 
 <script>
   import enemy from "@/components/mixins/enemy";
+  import EnemyItem from "@/components/enemy/EnemyItem";
 
   export default {
     name: "EnemyStone",
-
+    components: {EnemyItem},
     mixins: [enemy],
 
     data() {
@@ -25,24 +29,9 @@
         speed: 30,
       }
     },
-
-    props: {
-      theme: {
-        default: '#a26423'
-      },
-    },
   }
 </script>
 
 <style lang="less" scoped>
-    .enemy {
-        &.enemy-stone {
-            position: absolute;
-            border: 2px solid #cc473f;
-        }
 
-        &.hidden {
-            display: none;
-        }
-    }
 </style>
