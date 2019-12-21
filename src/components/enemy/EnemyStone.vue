@@ -1,74 +1,34 @@
 <template>
     <div
         class="enemy enemy-stone"
-        :style="{top: x + 'px', left: y + 'px'}" :class="{started: this.started}"
+        :style="{top: x + 'px', left: y + 'px', width: `${w}px`, height: `${h}px`, backgroundColor: this.theme}"
+        :class="{hidden: !this.activated}"
     ></div>
 </template>
 
 <script>
-  import {store} from "@/lib/store";
-  import intervals from "@/lib/mixins/intervals";
+  import enemy from "@/components/mixins/enemy";
 
   export default {
     name: "EnemyStone",
 
-    mixins: [intervals],
+    mixins: [enemy],
 
     data() {
       return {
-        x: 0,
-        y: 300,
+        type: 'stone',
+
+        h: 15,
+        w: 10,
+
+        step: 5,
+        speed: 30,
       }
     },
 
-    computed: {
-      started() {
-        return store.started;
-      },
-
-      gameOver() {
-        return store.gameOver;
-      },
-    },
-
-    watch: {
-      started(value) {
-        if (value) {
-          this.down()
-        }
-      },
-
-      gameOver(value) {
-        if (value) {
-          this.clearTimeouts();
-        }
-      },
-
-      y(value) {
-        this.$emit('moved-enemy-stone', this.y);
-
-        if (value < -10) {
-          this.y = 300;
-        }
-      },
-    },
-
-    methods: {
-      down() {
-        this.smoothIncreaseY()
-      },
-
-      smoothIncreaseY() {
-        if (this.gameOver) {
-          return;
-        }
-
-        this.y -= 5;
-        this.addTimeout(setTimeout(() => {this.smoothIncreaseY()}, 30));
-      },
-
-      init() {
-        this.y = 100;
+    props: {
+      theme: {
+        default: '#a26423'
       },
     },
   }
@@ -78,10 +38,11 @@
     .enemy {
         &.enemy-stone {
             position: absolute;
-            width: 10px;
-            height: 15px;
             border: 2px solid #cc473f;
-            background-color: #a26423
+        }
+
+        &.hidden {
+            display: none;
         }
     }
 </style>

@@ -2,7 +2,7 @@
     <div
         id="mover"
         @click="down()"
-        :style="{top: x + 'px', left: y + 'px'}" :class="{started: this.started}">
+        :style="{top: x + 'px', left: y + 'px', width: `${w}px`, height: `${h}px`}" :class="{started: this.started}">
     </div>
 </template>
 
@@ -19,6 +19,9 @@
       return {
         x: 0,
         y: 0,
+
+        h: 60,
+        w: 20,
 
         maxX: -80,
         minX: 0,
@@ -86,8 +89,6 @@
 <style lang="less" scoped>
     #mover {
         position: absolute;
-        width: 20px;
-        height: 60px;
         background-color: orangered;
         cursor: pointer;
 

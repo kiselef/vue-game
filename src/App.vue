@@ -4,16 +4,16 @@
       ref="mover"
       @start="start"
     />
-    <enemy
+    <enemies
       ref="enemies"
-      @moved-enemy-stone="enemyMoved"
+      @moved-enemy="enemyMoved"
     />
   </div>
 </template>
 
 <script>
 import Mover from "@/components/mover/Mover";
-import Enemy from "@/components/enemy/Enemy";
+import Enemies from "@/components/enemy/Enemies";
 import {mutations, store} from "@/lib/store";
 
 export default {
@@ -34,7 +34,7 @@ export default {
   },
 
   components: {
-    Enemy,
+    Enemies,
     Mover,
   },
 
@@ -54,7 +54,8 @@ export default {
     },
 
     enemyMoved(link) {
-      if (link <= 20 && link >= 0) {
+      const mover = this.$refs.mover;
+      if (link <= mover.y + mover.w && link >= mover.y) {
         if (this.$refs.mover.x > -15) {
           console.log('game over');
           mutations.gameOver();
