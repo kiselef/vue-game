@@ -9,10 +9,12 @@ export default {
   methods: {
     clearIntervals() {
       this.intervals.forEach(interval => clearInterval(interval));
+      this.intervals = [];
     },
 
     clearTimeouts() {
       this.timeouts.forEach(timeout => clearTimeout(timeout));
+      this.timeouts = [];
     },
 
     addTimeout(timeout) {

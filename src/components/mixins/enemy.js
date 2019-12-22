@@ -1,13 +1,10 @@
-import intervals from "@/lib/mixins/intervals";
+import intervals from "@/components/mixins/intervals";
 import {store} from "@/lib/store";
 
 export default {
   data() {
     return {
       type: '',
-
-      startPosition: 250,
-      endPosition: -50,
 
       x: 0,
       y: 0,
@@ -21,10 +18,6 @@ export default {
   },
 
   computed: {
-    started() {
-      return store.started;
-    },
-
     gameOver() {
       return store.gameOver;
     }
@@ -33,33 +26,20 @@ export default {
   mixins: [intervals],
 
   props: {
-    enemyId: {
-      type: Number,
-    },
-
     activated: {
       default: false,
     },
+    enemyId: Number,
+    positions: Object,
   },
 
   watch: {
-    gameOver(value) {
-      if (value) {
-        this.clearTimeouts();
-      }
-    },
-
     /**
      * Каждое передвижение по горизонтали отслеживается.
      * @param value
      */
-    y(value) {
-      this.$emit('moved', this.y);
-
-      if (value < this.endPosition) {
-        this.$emit('changed', this.enemyId, false);
-        this.clearTimeouts();
-      }
+    x() {
+      this.$emit('moved', {x: this.x, y: this.y, w: this.w, h: this.h, id: this.enemyId});
     },
 
     /**
@@ -68,24 +48,22 @@ export default {
      */
     activated(value) {
       if (value) {
-        this.y = this.startPosition;
-        this.down();
+        this.x = this.positions.start;
+        this.addInterval(setInterval(() => {
+          if (this.gameOver) {
+            return;
+          }
+          this.move();
+        }, this.speed));
+      } else {
+        this.clearIntervals();
       }
     },
   },
 
   methods: {
-    down() {
-      this.smoothIncreaseY()
-    },
-
-    smoothIncreaseY() {
-      if (this.gameOver) {
-        return;
-      }
-
-      this.y -= this.step;
-      this.addTimeout(setTimeout(() => {this.smoothIncreaseY()}, this.speed));
+    move() {
+      this.x -= this.step;
     },
   },
 };

@@ -6,7 +6,7 @@
     />
     <enemies
       ref="enemies"
-      @moved-enemy="enemyMoved"
+      @moved-enemy="movedEnemy"
     />
   </div>
 </template>
@@ -53,11 +53,10 @@ export default {
       mutations.start();
     },
 
-    enemyMoved(enemyY) {
+    movedEnemy(enemy) {
       const mover = this.$refs.mover;
-      if (enemyY <= mover.y + mover.w && enemyY >= mover.y) {
-        if (this.$refs.mover.x > -15) {
-          console.log('game over');
+      if (mover.x + mover.w >= enemy.x && mover.x <= enemy.x + enemy.w) {
+        if (mover.y > -enemy.h) {
           mutations.gameOver();
         }
       }

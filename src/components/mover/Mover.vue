@@ -1,8 +1,10 @@
 <template>
     <div
         id="mover"
-        @click="down()"
-        :style="{top: x + 'px', left: y + 'px', width: `${w}px`, height: `${h}px`}" :class="{started: this.started}">
+        @click="down"
+        :style="{top: y + 'px', left: x + 'px', width: `${w}px`, height: `${h}px`}"
+        :class="{started: this.started}"
+    >
     </div>
 </template>
 
@@ -23,8 +25,11 @@
         h: 60,
         w: 20,
 
-        maxX: -80,
-        minX: 0,
+        maxY: -80,
+        minY: 0,
+
+        step: 3,
+        speed: 15,
       }
     },
 
@@ -34,15 +39,15 @@
       },
 
       isOnTop() {
-        return this.x <= this.maxX;
+        return this.y <= this.maxY;
       },
 
       isOnBottom() {
-        return this.x >= this.minX;
+        return this.y >= this.minY;
       },
 
       inJumping() {
-        return this.x !== 0;
+        return this.y !== 0;
       },
     },
 
@@ -50,7 +55,13 @@
       isOnTop(value) {
         if (value) {
           this.clearTimeouts();
-          this.smoothDecreaseX();
+          this.smoothDecreaseY();
+        }
+      },
+
+      isOnBottom(value) {
+        if (value) {
+          this.clearTimeouts();
         }
       },
     },
@@ -61,26 +72,26 @@
           return;
         }
         this.$emit('start');
-        this.smoothIncreaseX();
+        this.smoothIncreaseY();
       },
 
-      smoothIncreaseX() {
+      smoothIncreaseY() {
         if (this.isOnTop) {
           return;
         }
 
-        this.x -= 5;
-        this.addTimeout(setTimeout(() => {this.smoothIncreaseX()}, 25));
+        this.y -= this.step;
+        this.addTimeout(setTimeout(() => {this.smoothIncreaseY()}, this.speed));
       },
 
-      smoothDecreaseX() {
+      smoothDecreaseY() {
         if (this.isOnBottom) {
-          this.x = this.minX;
+          this.y = this.minY;
           return;
         }
 
-        this.x += 5;
-        setTimeout(() => {this.smoothDecreaseX()}, 30);
+        this.y += this.step;
+        this.addTimeout(setTimeout(() => {this.smoothDecreaseY()}, this.speed));
       },
     },
   }

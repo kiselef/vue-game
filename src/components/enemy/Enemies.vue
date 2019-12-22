@@ -3,13 +3,25 @@
         <enemy-stone
             :activated="enemies[0].active"
             :enemy-id="0"
-            @changed="changedEnemy"
+            :positions="positions"
             @moved="movedEnemy"
         />
         <enemy-tree
             :activated="enemies[1].active"
             :enemy-id="1"
-            @changed="changedEnemy"
+            :positions="positions"
+            @moved="movedEnemy"
+        />
+        <enemy-stone
+            :activated="enemies[2].active"
+            :enemy-id="2"
+            :positions="positions"
+            @moved="movedEnemy"
+        />
+        <enemy-tree
+            :activated="enemies[3].active"
+            :enemy-id="3"
+            :positions="positions"
             @moved="movedEnemy"
         />
     </div>
@@ -19,7 +31,6 @@
   import EnemyStone from "@/components/enemy/EnemyStone";
   import EnemyTree from "@/components/enemy/EnemyTree";
   import {store} from "@/lib/store";
-  import intervals from "@/lib/mixins/intervals";
 
   export default {
     name: "Enemies",
@@ -27,15 +38,20 @@
     data() {
       return {
         enemies: [
-          {active: false},
-          {active: false},
+          {active: false, id: 0},
+          {active: false, id: 1},
+          {active: false, id: 2},
+          {active: false, id: 3},
         ],
 
-        sceneBlocked: false,
+        positions: {
+          start: 350,
+          end: -50,
+        },
+
+        blocked: false,
       }
     },
-
-    mixins: [intervals],
 
     components: {
       EnemyStone,
@@ -56,41 +72,38 @@
       started(value) {
         if (value) this.init();
       },
-      gameOver(value) {
-        if (value) this.clearIntervals();
-      }
     },
 
     methods: {
-      movedEnemy(y) {
-        this.$emit('moved-enemy', y)
-      },
-
-      changedEnemy(enemyId, status) {
-        this.setActivateEnemy(enemyId, status);
-        if (!status) {
-          this.sceneBlocked = false;
-        }
-      },
-
       init() {
         this.setActivateEnemy(0, true);
-        this.addInterval(setInterval(() => {
-          if (this.sceneBlocked) return;
-          this.setActivateEnemy(this.getRandomEnemyId(), true);
-          }, 500)
-        );
+      },
+
+      /**
+       * Прослушивает каждого врага на событие изменения его координат.
+       * @param enemy
+       */
+      movedEnemy(enemy) {
+        this.$emit('moved-enemy', enemy);
+        if (enemy.x < 40 && !this.blocked) {
+          this.blocked = true;
+          this.setActivateEnemy(this.getNextEnemyId(), true);
+        }
+        if (enemy.x < this.positions.end) {
+          this.setActivateEnemy(enemy.id, false);
+          this.blocked = false;
+        }
       },
 
       setActivateEnemy(enemyId, status) {
-        if (status) {
-          this.sceneBlocked = true;
-        }
         this.enemies[enemyId].active = status;
       },
 
-      getRandomEnemyId() {
-        return Math.floor(Math.random() * 10) % 2;
+      getNextEnemyId() {
+        const allowedEnemies = this.enemies.filter(enemy => !enemy.active);
+        const index = Math.floor(Math.random() * 10) % allowedEnemies.length;
+
+        return allowedEnemies[index].id;
       },
     },
   }

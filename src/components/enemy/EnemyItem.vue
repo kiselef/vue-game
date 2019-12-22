@@ -1,7 +1,7 @@
 <template>
     <div
         class="enemy"
-        :style="{bottom: `${x}px`, left: `${y}px`, width: `${w}px`, height: `${h}px`}"
+        :style="{bottom: `${y}px`, left: `${x}px`, width: `${w}px`, height: `${h}px`}"
         :class="{hidden: !this.activated}"
     ></div>
 </template>

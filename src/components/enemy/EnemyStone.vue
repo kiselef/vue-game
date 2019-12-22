@@ -23,7 +23,7 @@
         type: 'stone',
 
         h: 15,
-        w: 10,
+        w: 40,
 
         step: 5,
         speed: 30,
