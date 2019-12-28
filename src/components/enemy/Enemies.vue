@@ -76,7 +76,10 @@
 
     methods: {
       init() {
-        this.setActivateEnemy(0, true);
+        for (let i = 0; i < this.enemies.length; i++) {
+          this.enemies[i].active = false;
+        }
+        this.setActivateEnemy(this.getNextEnemyId(), true);
       },
 
       /**

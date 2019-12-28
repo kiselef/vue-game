@@ -12,6 +12,9 @@ let mutations = {
   gameOver() {
     store.gameOver = true;
   },
+  set(key, value) {
+    store[key] = value;
+  },
 };
 
 export {store, mutations};

@@ -10,11 +10,10 @@
 
 <script>
   import {store} from "@/lib/store";
-  import intervals from "@/lib/mixins/intervals"
+  import intervals from "@/components/mixins/intervals"
 
   export default {
     name: "Mover",
-
     mixins: [intervals],
 
     data() {
@@ -23,13 +22,15 @@
         y: 0,
 
         h: 60,
-        w: 20,
+        w: 47,
 
         maxY: -80,
         minY: 0,
 
         step: 3,
         speed: 15,
+
+        relative: 10,
       }
     },
 
@@ -48,6 +49,14 @@
 
       inJumping() {
         return this.y !== 0;
+      },
+
+      x2() {
+        return this.x + this.w - this.relative;
+      },
+
+      y2() {
+        return this.y + this.h;
       },
     },
 
@@ -100,29 +109,9 @@
 <style lang="less" scoped>
     #mover {
         position: absolute;
-        background-color: orangered;
         cursor: pointer;
-
-        &.started:after {
-            display: none;
-        }
-
-        &:after {
-            content: 'Клац по мне';
-            position: absolute;
-            top: -15px;
-            left: 25px;
-            background-color: #dbfaff;
-            width: max-content;
-            padding: 0px 8px;
-            border-radius: 10px 10px 10px 0px;
-            cursor: none;
-        }
-
-        &:hover {
-            &:after {
-                content: 'Ага ;)';
-            }
-        }
+        background-size: contain;
+        background-image: url("../../img/mover.png");
+        background-repeat: no-repeat;
     }
 </style>

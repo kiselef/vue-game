@@ -14,13 +14,23 @@ export default {
 
       step: 5,
       speed: 30,
+
+      relative: 10,
     }
   },
 
   computed: {
     gameOver() {
       return store.gameOver;
-    }
+    },
+
+    x2() {
+      return this.x + this.w;
+    },
+
+    y2() {
+      return this.y + this.h;
+    },
   },
 
   mixins: [intervals],
@@ -39,7 +49,7 @@ export default {
      * @param value
      */
     x() {
-      this.$emit('moved', {x: this.x, y: this.y, w: this.w, h: this.h, id: this.enemyId});
+      this.$emit('moved', {x: this.x, y: this.y, x2: this.x2, y2: this.y2, id: this.enemyId});
     },
 
     /**
@@ -59,6 +69,12 @@ export default {
         this.clearIntervals();
       }
     },
+
+    gameOver(value) {
+      if (value) {
+        this.clearIntervals();
+      }
+    }
   },
 
   methods: {
