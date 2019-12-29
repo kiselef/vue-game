@@ -3,6 +3,7 @@ import vue from 'vue';
 let store = vue.observable({
   started: false,
   gameOver: false,
+  level: 1,
 });
 
 let mutations = {

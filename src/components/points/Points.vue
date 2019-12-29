@@ -21,7 +21,7 @@
 
     computed: {
       pointsResult() {
-        return `${this.points}`.padStart(10, '0');
+        return `${this.points}`.padStart(8, '0');
       },
 
       started() {
@@ -35,7 +35,6 @@
 
     watch: {
       started(value) {
-        console.log(value);
         if (value) {
           this.start();
         }
@@ -45,12 +44,16 @@
         if (value) {
           this.stop();
         }
-      }
+      },
+
+      points(value) {
+        this.$emit('increased', value);
+      },
     },
 
     methods: {
       start() {
-        this.addInterval(setInterval(() => {this.points++}, 100));
+        this.addInterval(setInterval(() => {this.points++}, 50));
       },
 
       stop() {

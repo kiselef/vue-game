@@ -24,6 +24,10 @@ export default {
       return store.gameOver;
     },
 
+    level() {
+      return store.level;
+    },
+
     x2() {
       return this.x + this.w;
     },
@@ -74,7 +78,11 @@ export default {
       if (value) {
         this.clearIntervals();
       }
-    }
+    },
+
+    level() {
+      this.speed -= 4;
+    },
   },
 
   methods: {

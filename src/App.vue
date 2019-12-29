@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <div class="stat">
-          <points />
+          <points @increased="pointIncreased" />
       </div>
       <div class="main-scene">
           <mover
@@ -78,6 +78,12 @@ export default {
         if (mover.y > -enemy.y2) {
           mutations.gameOver();
         }
+      }
+    },
+
+    pointIncreased(value) {
+      if (value % 200 === 0) {
+        mutations.set('level', store.level + 1);
       }
     },
   },

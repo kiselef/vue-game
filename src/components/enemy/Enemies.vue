@@ -45,7 +45,7 @@
         ],
 
         positions: {
-          start: 350,
+          start: 450,
           end: -50,
         },
 
