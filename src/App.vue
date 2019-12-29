@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+      <div class="stat">
+          <points />
+      </div>
       <div class="main-scene">
           <mover
               ref="mover"
@@ -20,6 +23,7 @@
 import Mover from "@/components/mover/Mover";
 import Enemies from "@/components/enemy/Enemies";
 import {mutations, store} from "@/lib/store";
+import Points from "@/components/points/Points";
 
 export default {
   name: 'app',
@@ -39,6 +43,7 @@ export default {
   },
 
   components: {
+    Points,
     Enemies,
     Mover,
   },
