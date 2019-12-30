@@ -81,7 +81,7 @@ export default {
     },
 
     level() {
-      this.speed -= 4;
+      this.speed -= this.speed <= 20 ? 2 : 4;
     },
   },
 

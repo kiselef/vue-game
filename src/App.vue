@@ -74,11 +74,13 @@ export default {
 
     movedEnemy(enemy) {
       const mover = this.$refs.mover;
-      if (mover.x2 >= enemy.x && mover.x <= enemy.x2) {
-        if (mover.y > -enemy.y2) {
-          mutations.gameOver();
-        }
+      if (this.isCrossed(mover, enemy)) {
+        mutations.gameOver();
       }
+    },
+
+    isCrossed(mover, enemy) {
+      return mover.x2 >= enemy.x && mover.x + 10 <= enemy.x2 && mover.y > -enemy.y2;
     },
 
     pointIncreased(value) {
@@ -94,7 +96,7 @@ export default {
 #app {
     margin: 160px auto 0 auto;
     width: 500px;
-    height: 60px;
+    height: 69px;
     position: relative;
     border-bottom: 1px solid #ccc;
     .reload-game {

@@ -21,14 +21,14 @@
         x: 0,
         y: 0,
 
-        h: 60,
-        w: 47,
+        h: 70,
+        w: 45,
 
-        maxY: -80,
+        maxY: -100,
         minY: 0,
 
         step: 3,
-        speed: 15,
+        speed: 10,
 
         relative: 10,
       }
@@ -63,14 +63,14 @@
     watch: {
       isOnTop(value) {
         if (value) {
-          this.clearTimeouts();
-          this.smoothDecreaseY();
+          this.clearIntervals();
+          this.addTimeout(setTimeout(() => this.smoothDecreaseY(), 130));
         }
       },
 
       isOnBottom(value) {
         if (value) {
-          this.clearTimeouts();
+          this.clearIntervals();
         }
       },
     },
@@ -89,8 +89,8 @@
           return;
         }
 
-        this.y -= this.step;
-        this.addTimeout(setTimeout(() => {this.smoothIncreaseY()}, this.speed));
+        this.moveBottom();
+        this.addInterval(setInterval(() => this.moveBottom(), this.speed));
       },
 
       smoothDecreaseY() {
@@ -99,8 +99,16 @@
           return;
         }
 
+        this.moveTop();
+        this.addInterval(setInterval(() => this.moveTop(), this.speed + 1));
+      },
+
+      moveTop() {
         this.y += this.step;
-        this.addTimeout(setTimeout(() => {this.smoothDecreaseY()}, this.speed));
+      },
+
+      moveBottom() {
+        this.y -= this.step;
       },
     },
   }
@@ -111,7 +119,7 @@
         position: absolute;
         cursor: pointer;
         background-size: contain;
-        background-image: url("../../img/mover.png");
+        background-image: url("../../img/mover-2.png");
         background-repeat: no-repeat;
     }
 </style>

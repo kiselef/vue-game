@@ -47,7 +47,7 @@
       },
 
       points(value) {
-        this.$emit('increased', value);
+        if (value % 50 === 0) this.$emit('increased', value);
       },
     },
 

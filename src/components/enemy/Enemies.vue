@@ -18,7 +18,7 @@
             :positions="positions"
             @moved="movedEnemy"
         />
-        <enemy-tree
+        <enemy-bird
             :activated="enemies[3].active"
             :enemy-id="3"
             :positions="positions"
@@ -31,6 +31,7 @@
   import EnemyStone from "@/components/enemy/EnemyStone";
   import EnemyTree from "@/components/enemy/EnemyTree";
   import {store} from "@/lib/store";
+  import EnemyBird from "@/components/enemy/EnemyBird";
 
   export default {
     name: "Enemies",
@@ -45,7 +46,7 @@
         ],
 
         positions: {
-          start: 450,
+          start: 500,
           end: -50,
         },
 
@@ -54,6 +55,7 @@
     },
 
     components: {
+      EnemyBird,
       EnemyStone,
       EnemyTree,
     },
@@ -122,7 +124,6 @@
         }
         .enemy {
             position: absolute;
-            border: 2px solid #cc473f;
             &.hidden {
                 display: none;
             }

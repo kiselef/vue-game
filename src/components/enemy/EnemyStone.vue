@@ -22,8 +22,8 @@
       return {
         type: 'stone',
 
-        h: 15,
-        w: 40,
+        h: 30,
+        w: 30,
 
         step: 5,
         speed: 30,
@@ -32,6 +32,10 @@
   }
 </script>
 
-<style lang="less" scoped>
-
+<style lang="less" >
+    .enemy-stone {
+        background-size: contain;
+        background-image: url("../../img/tree-2.png");
+        background-repeat: no-repeat;
+    }
 </style>
