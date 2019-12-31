@@ -28,12 +28,17 @@
         h: 20,
         w: 50,
 
+        y: 80,
+
         wingUp: false,
       }
     },
 
     watch: {
       activated(value) {
+        const r = Math.random();
+        this.y = Math.round(r) > 0 ? this.y : 10;
+
         if (value) {
           this.addInterval(setInterval(() => this.wingUp = !this.wingUp, 250));
         } else {

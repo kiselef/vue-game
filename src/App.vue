@@ -80,7 +80,8 @@ export default {
     },
 
     isCrossed(mover, enemy) {
-      return mover.x2 >= enemy.x && mover.x + 10 <= enemy.x2 && mover.y > -enemy.y2;
+      return mover.x2 >= enemy.x && mover.x + 10 <= enemy.x2 // пересечение по горизонтали
+        && mover.y < enemy.y2 && mover.y2 > enemy.y ;        // по вертикали
     },
 
     pointIncreased(value) {

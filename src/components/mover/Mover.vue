@@ -2,7 +2,7 @@
     <div
         id="mover"
         @click="down"
-        :style="{top: y + 'px', left: x + 'px', width: `${w}px`, height: `${h}px`}"
+        :style="{bottom: y + 'px', left: x + 'px', width: `${w}px`, height: `${h}px`}"
         :class="{started: this.started}"
     >
     </div>
@@ -21,10 +21,10 @@
         x: 0,
         y: 0,
 
-        h: 70,
+        h: 69,
         w: 45,
 
-        maxY: -100,
+        maxY: 100,
         minY: 0,
 
         step: 3,
@@ -40,11 +40,11 @@
       },
 
       isOnTop() {
-        return this.y <= this.maxY;
+        return this.y >= this.maxY;
       },
 
       isOnBottom() {
-        return this.y >= this.minY;
+        return this.y <= this.minY;
       },
 
       inJumping() {
@@ -64,7 +64,7 @@
       isOnTop(value) {
         if (value) {
           this.clearIntervals();
-          this.addTimeout(setTimeout(() => this.smoothDecreaseY(), 130));
+          setTimeout(() => this.smoothDecreaseY(), 130)
         }
       },
 
@@ -89,8 +89,8 @@
           return;
         }
 
-        this.moveBottom();
-        this.addInterval(setInterval(() => this.moveBottom(), this.speed));
+        this.moveTop();
+        this.addInterval(setInterval(() => this.moveTop(), this.speed));
       },
 
       smoothDecreaseY() {
@@ -99,8 +99,8 @@
           return;
         }
 
-        this.moveTop();
-        this.addInterval(setInterval(() => this.moveTop(), this.speed + 1));
+        this.moveBottom();
+        this.addInterval(setInterval(() => this.moveBottom(), this.speed + 1));
       },
 
       moveTop() {
