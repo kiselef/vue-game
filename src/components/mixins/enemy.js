@@ -19,6 +19,13 @@ export default {
     }
   },
 
+  beforeMount() {
+    this.x = this.positions.start;
+    if (this.activated) {
+      this.move();
+    }
+  },
+
   computed: {
     gameOver() {
       return store.gameOver;
@@ -63,12 +70,7 @@ export default {
     activated(value) {
       if (value) {
         this.x = this.positions.start;
-        this.addInterval(setInterval(() => {
-          if (this.gameOver) {
-            return;
-          }
-          this.move();
-        }, this.speed));
+        this.move();
       } else {
         this.clearIntervals();
       }
@@ -87,7 +89,12 @@ export default {
 
   methods: {
     move() {
-      this.x -= this.step;
+      this.addInterval(setInterval(() => {
+        if (this.gameOver) {
+          return;
+        }
+        this.x -= this.step;
+      }, this.speed));
     },
   },
 };

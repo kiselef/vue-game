@@ -1,29 +1,14 @@
 <template>
     <div class="enemies-wrap">
-        <enemy-stone
-            :activated="enemies[0].active"
-            :enemy-id="0"
-            :positions="positions"
-            @moved="movedEnemy"
-        />
-        <enemy-tree
-            :activated="enemies[1].active"
-            :enemy-id="1"
-            :positions="positions"
-            @moved="movedEnemy"
-        />
-        <enemy-stone
-            :activated="enemies[2].active"
-            :enemy-id="2"
-            :positions="positions"
-            @moved="movedEnemy"
-        />
-        <enemy-bird
-            :activated="enemies[3].active"
-            :enemy-id="3"
-            :positions="positions"
-            @moved="movedEnemy"
-        />
+        <div v-for="(enemy, index) in enemies" :key="index">
+            <component
+                :is="enemy.item"
+                :activated="enemy.status"
+                :enemy-id="enemy.id"
+                :positions="positions"
+                @moved="movedEnemy"
+            />
+        </div>
     </div>
 </template>
 
@@ -32,6 +17,7 @@
   import EnemyTree from "@/components/enemy/EnemyTree";
   import {store} from "@/lib/store";
   import EnemyBird from "@/components/enemy/EnemyBird";
+  import EnemyItem from "@/components/enemy/EnemyItem";
 
   export default {
     name: "Enemies",
@@ -39,10 +25,11 @@
     data() {
       return {
         enemies: [
-          {active: false, id: 0},
-          {active: false, id: 1},
-          {active: false, id: 2},
-          {active: false, id: 3},
+          {id: 0, status: false, item: EnemyTree},
+          {id: 1, status: false, item: EnemyTree},
+          {id: 2, status: false, item: EnemyStone},
+          {id: 3, status: false, item: EnemyStone},
+          {id: 4, status: false, item: EnemyBird},
         ],
 
         positions: {
@@ -55,6 +42,7 @@
     },
 
     components: {
+      EnemyItem,
       EnemyBird,
       EnemyStone,
       EnemyTree,
@@ -78,10 +66,14 @@
 
     methods: {
       init() {
-        for (let i = 0; i < this.enemies.length; i++) {
-          this.enemies[i].active = false;
+        this.activateEnemyById(0);
+      },
+
+      activateEnemyById(enemyId) {
+        if (!this.enemies[enemyId]) {
+          enemyId = this.getNextEnemyId();
         }
-        this.setActivateEnemy(this.getNextEnemyId(), true);
+        this.enemies[enemyId].status = true;
       },
 
       /**
@@ -92,23 +84,18 @@
         this.$emit('moved-enemy', enemy);
         if (enemy.x < 40 && !this.blocked) {
           this.blocked = true;
-          this.setActivateEnemy(this.getNextEnemyId(), true);
+          this.activateEnemyById(this.getNextEnemyId());
         }
         if (enemy.x < this.positions.end) {
-          this.setActivateEnemy(enemy.id, false);
+          this.enemies[enemy.id].status = false;
           this.blocked = false;
         }
       },
 
-      setActivateEnemy(enemyId, status) {
-        this.enemies[enemyId].active = status;
-      },
-
       getNextEnemyId() {
-        const allowedEnemies = this.enemies.filter(enemy => !enemy.active);
-        const index = Math.floor(Math.random() * 10) % allowedEnemies.length;
-
-        return allowedEnemies[index].id;
+        const nonActiveEnemies = this.enemies.filter(enemy => !enemy.status)
+        const index = Math.floor(Math.random() * 100) % nonActiveEnemies.length;
+        return nonActiveEnemies[index].id;
       },
     },
   }
@@ -116,7 +103,6 @@
 
 <style lang="less">
     .enemies-wrap {
-        height: 60px;
         &:after {
             content: "";
             display: block;

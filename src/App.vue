@@ -6,12 +6,17 @@
       <div class="main-scene">
           <mover
               ref="mover"
+              :bullets="bullets"
               @start="start"
+              @shoot="shoot"
           />
           <enemies
               ref="enemies"
               @moved-enemy="movedEnemy"
           />
+          <div v-for="(bullet, index) in bullets" :key="index">
+              <component :is="bullet.item" :started="bullet.started" @moved="bulletMoved" />
+          </div>
       </div>
       <div class="reload-game" v-if="gameOver">
           <a href="#" @click.prevent="reload">Начать снова</a>
@@ -24,20 +29,28 @@ import Mover from "@/components/mover/Mover";
 import Enemies from "@/components/enemy/Enemies";
 import {mutations, store} from "@/lib/store";
 import Points from "@/components/points/Points";
+import Bullet from "@/components/bullet/Bullet"
 
 export default {
   name: 'app',
 
   data() {
     return {
-
+      bullets: [
+        {item: Bullet, started: false,},
+      ],
     }
   },
 
   created() {
     document.addEventListener("keydown", (event) => {
-      if (event.code === 'Space') {
-        this.$refs.mover.down()
+      switch (event.code) {
+        case 'ArrowUp':
+          this.$refs.mover.down();
+          break;
+        case 'Space':
+          this.shoot();
+          break;
       }
     });
   },
@@ -55,6 +68,10 @@ export default {
 
     gameOver() {
       return store.gameOver;
+    },
+
+    level() {
+      return store.level;
     },
   },
 
@@ -80,7 +97,7 @@ export default {
     },
 
     isCrossed(mover, enemy) {
-      return mover.x2 >= enemy.x && mover.x + 10 <= enemy.x2 // пересечение по горизонтали
+      return mover.x2 >= enemy.x && mover.x <= enemy.x2 // пересечение по горизонтали
         && mover.y < enemy.y2 && mover.y2 > enemy.y ;        // по вертикали
     },
 
@@ -88,6 +105,22 @@ export default {
       if (value % 200 === 0) {
         mutations.set('level', store.level + 1);
       }
+    },
+
+    shoot() {
+      if (this.bullets.length) {
+        this.bullets[0].started = true;
+      }
+    },
+
+    bulletMoved(bullet) {
+      return bullet;
+    },
+  },
+
+  watch: {
+    level() {
+      this.bullets.push({item: Bullet, started: false,})
     },
   },
 }
@@ -97,7 +130,6 @@ export default {
 #app {
     margin: 160px auto 0 auto;
     width: 500px;
-    height: 69px;
     position: relative;
     border-bottom: 1px solid #ccc;
     .reload-game {

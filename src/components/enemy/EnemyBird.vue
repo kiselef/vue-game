@@ -36,10 +36,8 @@
 
     watch: {
       activated(value) {
-        const r = Math.random();
-        this.y = Math.round(r) > 0 ? this.y : 10;
-
         if (value) {
+          this.y = Math.round(Math.random()) > 0 ? this.y : 10;
           this.addInterval(setInterval(() => this.wingUp = !this.wingUp, 250));
         } else {
           this.clearIntervals();
