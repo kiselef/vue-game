@@ -1,6 +1,5 @@
 <template>
     <enemy-item
-        class="enemy-stone"
         :x="x"
         :y="y"
         :w="w"
@@ -14,23 +13,25 @@
   import EnemyItem from "@/components/enemy/EnemyItem";
 
   export default {
-    name: "EnemyStone",
+    name: "EnemyTreePair",
     components: {EnemyItem},
     mixins: [enemy],
 
     data() {
       return {
-        type: 'stone',
+        type: 'treePair',
 
-        h: 5,
-        w: 10,
+        h: 30,
+        w: 30,
       }
     },
   }
 </script>
 
 <style lang="less" >
-    .enemy-stone {
-        background: black;
+    .enemy {
+        background-size: contain;
+        background-image: url("../../img/tree-2.png");
+        background-repeat: no-repeat;
     }
 </style>

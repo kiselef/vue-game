@@ -1,7 +1,6 @@
 <template>
     <div
         id="mover"
-        @click="down"
         :style="{bottom: y + 'px', left: x + 'px', width: `${w}px`, height: `${h}px`}"
         :class="{started: this.started}"
     >
@@ -28,9 +27,10 @@
         minY: 0,
 
         step: 3,
-        speed: 10,
+        speed: 5,
 
-        relative: 10,
+        relative: 12,
+        destination: '',
       }
     },
 
@@ -63,8 +63,7 @@
     watch: {
       isOnTop(value) {
         if (value) {
-          this.clearIntervals();
-          setTimeout(() => this.smoothDecreaseY(), 130)
+          this.down();
         }
       },
 
@@ -76,12 +75,22 @@
     },
 
     methods: {
-      down() {
+      up() {
         if (this.inJumping) {
           return;
         }
-        this.$emit('start');
+        this.destination = 'up';
         this.smoothIncreaseY();
+      },
+
+      down() {
+        if (this.destination === 'down') {
+          return;
+        }
+        this.clearIntervals();
+        this.destination = 'down';
+        // небольшая задержка на вершине прыжка
+        setTimeout(() => this.smoothDecreaseY(), 145)
       },
 
       smoothIncreaseY() {
@@ -100,7 +109,7 @@
         }
 
         this.moveBottom();
-        this.addInterval(setInterval(() => this.moveBottom(), this.speed + 1));
+        this.addInterval(setInterval(() => this.moveBottom(), this.speed + 2));
       },
 
       moveTop() {

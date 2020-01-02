@@ -7,7 +7,6 @@
           <mover
               ref="mover"
               :bullets="bullets"
-              @start="start"
               @shoot="shoot"
           />
           <enemies
@@ -46,10 +45,19 @@ export default {
     document.addEventListener("keydown", (event) => {
       switch (event.code) {
         case 'ArrowUp':
-          this.$refs.mover.down();
+          this.$refs.mover.up();
+          this.start();
           break;
         case 'Space':
           this.shoot();
+          break;
+      }
+    });
+
+    document.addEventListener("keyup", (event) => {
+      switch (event.code) {
+        case 'ArrowUp':
+          this.$refs.mover.down();
           break;
       }
     });
@@ -92,6 +100,7 @@ export default {
     movedEnemy(enemy) {
       const mover = this.$refs.mover;
       if (this.isCrossed(mover, enemy)) {
+        console.log('crossed');
         mutations.gameOver();
       }
     },

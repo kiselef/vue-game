@@ -12,17 +12,10 @@ export default {
       h: 0,
       w: 0,
 
-      step: 5,
-      speed: 30,
+      step: 4,
+      speed: 15,
 
-      relative: 10,
-    }
-  },
-
-  beforeMount() {
-    this.x = this.positions.start;
-    if (this.activated) {
-      this.move();
+      relative: 12,
     }
   },
 
@@ -36,7 +29,7 @@ export default {
     },
 
     x2() {
-      return this.x + this.w;
+      return this.x + this.w - this.relative;
     },
 
     y2() {

@@ -37,7 +37,8 @@
     watch: {
       activated(value) {
         if (value) {
-          this.y = Math.round(Math.random()) > 0 ? this.y : 10;
+          const r = Math.random();
+          this.y = Math.round(r) > 0 ? this.y : 10;
           this.addInterval(setInterval(() => this.wingUp = !this.wingUp, 250));
         } else {
           this.clearIntervals();
@@ -48,7 +49,7 @@
 </script>
 
 <style lang="less" scoped>
-    .enemy-bird {
+    .enemy {
         background-size: cover;
         background-image: url("../../img/bird-parts.png");
         background-repeat: no-repeat;

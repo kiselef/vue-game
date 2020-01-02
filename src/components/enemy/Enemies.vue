@@ -15,6 +15,7 @@
 <script>
   import EnemyStone from "@/components/enemy/EnemyStone";
   import EnemyTree from "@/components/enemy/EnemyTree";
+  import EnemyTreePair from "@/components/enemy/EnemyTreePair";
   import {store} from "@/lib/store";
   import EnemyBird from "@/components/enemy/EnemyBird";
   import EnemyItem from "@/components/enemy/EnemyItem";
@@ -27,9 +28,11 @@
         enemies: [
           {id: 0, status: false, item: EnemyTree},
           {id: 1, status: false, item: EnemyTree},
-          {id: 2, status: false, item: EnemyStone},
-          {id: 3, status: false, item: EnemyStone},
-          {id: 4, status: false, item: EnemyBird},
+          {id: 2, status: false, item: EnemyTreePair},
+          {id: 3, status: false, item: EnemyTreePair},
+          {id: 4, status: false, item: EnemyStone},
+          {id: 5, status: false, item: EnemyStone},
+          {id: 6, status: false, item: EnemyBird},
         ],
 
         positions: {
