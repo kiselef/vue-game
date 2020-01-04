@@ -64,12 +64,18 @@
     watch: {
       started(value) {
         if (value) this.init();
+        else this.disableAll();
       },
     },
 
     methods: {
       init() {
         this.activateEnemyById(0);
+      },
+
+      disableAll() {
+        this.enemies.forEach(enemy => enemy.status = false);
+        this.blocked = false;
       },
 
       activateEnemyById(enemyId) {

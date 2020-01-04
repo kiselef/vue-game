@@ -1,4 +1,5 @@
 import intervals from "@/components/mixins/intervals";
+import settings from "@/lib/settings";
 import {store} from "@/lib/store";
 
 export default {
@@ -71,6 +72,8 @@ export default {
 
     gameOver(value) {
       if (value) {
+        this.speed = settings.scene.enemy.speed;
+        this.step = settings.scene.enemy.step;
         this.clearIntervals();
       }
     },

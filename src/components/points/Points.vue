@@ -37,6 +37,8 @@
       started(value) {
         if (value) {
           this.start();
+        } {
+          this.points = 0;
         }
       },
 
@@ -64,7 +66,12 @@
 </script>
 
 <style scoped>
+    div {
+        position: absolute;
+        text-align: right;
+    }
     span {
         font-weight: bold;
+        font-family: monospace;
     }
 </style>
