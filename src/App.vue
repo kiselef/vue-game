@@ -49,9 +49,9 @@ export default {
       }
     });
 
-    const positions = this.getScenePositions();
-    mutations.set('positionStart', positions.start);
-    mutations.set('positionEnd', positions.end);
+    const {start, end} = this.getScenePositions();
+    mutations.set('positionStart', start);
+    mutations.set('positionEnd', end);
   },
 
   components: {
