@@ -8,7 +8,6 @@
               ref="mover"
           />
           <enemies
-              ref="enemies"
               @moved-enemy="movedEnemy"
           />
       </div>
@@ -49,6 +48,10 @@ export default {
           break;
       }
     });
+
+    const positions = this.getScenePositions();
+    mutations.set('positionStart', positions.start);
+    mutations.set('positionEnd', positions.end);
   },
 
   components: {
@@ -79,13 +82,12 @@ export default {
     reload() {
       mutations.set('started', false);
       mutations.set('gameOver', false);
-
     },
 
     movedEnemy(enemy) {
       const mover = this.$refs.mover;
       if (this.isCrossed(mover, enemy)) {
-        mutations.gameOver();
+        mutations.set('gameOver', true);
       }
     },
 
@@ -99,24 +101,40 @@ export default {
         mutations.set('level', store.level + 1);
       }
     },
+
+    getScenePositions() {
+      const {clientWidth: end} = document.getElementById('app');
+      return { end, start: 0 }
+    },
   },
 }
 </script>
 
 <style lang="less">
-#app {
-    margin: 200px auto 0 auto;
-    width: 500px;
-    position: relative;
-    border-bottom: 1px solid #ccc;
-    .reload-game {
-        position: absolute;
-        z-index:1000;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        text-align: center;
+    @media (max-width: 600px) {
+        #app {
+            width: 100%;
+        }
     }
-}
+
+    @media (min-width: 800px) {
+        #app {
+            width: 600px;
+        }
+    }
+
+    #app {
+        margin: 200px auto 0 auto;
+        position: relative;
+        border-bottom: 1px solid #ccc;
+        .reload-game {
+            position: absolute;
+            z-index:1000;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+    }
 </style>

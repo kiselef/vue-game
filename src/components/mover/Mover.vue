@@ -2,7 +2,7 @@
     <div
         id="mover"
         :style="{bottom: y + 'px', left: x + 'px', width: `${w}px`, height: `${h}px`}"
-        :class="{started: this.started}"
+        :class="{started: this.started, 'leg-up': this.legUp}"
     >
     </div>
 </template>
@@ -17,10 +17,10 @@
 
     data() {
       return {
-        x: 0,
+        x: 50,
         y: 0,
 
-        h: 69,
+        h: 66,
         w: 45,
 
         maxY: 100,
@@ -31,12 +31,18 @@
 
         relative: 12,
         destination: '',
+        legUp: false,
+        classInterval: null,
       }
     },
 
     computed: {
       started() {
         return store.started;
+      },
+
+      gameOver() {
+        return store.gameOver;
       },
 
       isOnTop() {
@@ -70,6 +76,18 @@
       isOnBottom(value) {
         if (value) {
           this.clearIntervals();
+        }
+      },
+
+      started(value) {
+        if (value) {
+          this.classInterval = setInterval(() => this.legUp = !this.legUp, 140);
+        }
+      },
+
+      gameOver(value) {
+        if (value) {
+          clearInterval(this.classInterval);
         }
       },
     },
@@ -127,8 +145,15 @@
     #mover {
         position: absolute;
         cursor: pointer;
-        background-size: contain;
-        background-image: url("../../img/mover-2.png");
+        background-size: cover;
+        background-image: url("../../img/mover-runner.png");
         background-repeat: no-repeat;
+        background-position-y: bottom;
+        &.started {
+            background-position-y: -10px;
+            &.leg-up {
+                background-position-y: -76px;
+            }
+        }
     }
 </style>

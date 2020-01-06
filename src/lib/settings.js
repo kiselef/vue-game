@@ -1,8 +1,8 @@
 export default {
   scene: {
     enemy: {
-      step: 4,
-      speed: 15,
+      step: 3,
+      speed: 11,
     },
   },
 };

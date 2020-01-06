@@ -4,15 +4,15 @@ let store = vue.observable({
   started: false,
   gameOver: false,
   level: 1,
+  positionStart: 0,
+  positionEnd: 400,
 });
 
 let mutations = {
   start() {
     store.started = true;
   },
-  gameOver() {
-    store.gameOver = true;
-  },
+
   set(key, value) {
     store[key] = value;
   },

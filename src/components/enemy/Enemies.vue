@@ -5,7 +5,6 @@
                 :is="enemy.item"
                 :activated="enemy.status"
                 :enemy-id="enemy.id"
-                :positions="positions"
                 @moved="movedEnemy"
             />
         </div>
@@ -34,11 +33,6 @@
           {id: 5, status: false, item: EnemyStone},
           {id: 6, status: false, item: EnemyBird},
         ],
-
-        positions: {
-          start: 500,
-          end: -50,
-        },
 
         blocked: false,
       }
@@ -95,21 +89,20 @@
           this.blocked = true;
           this.activateEnemyById(this.getNextEnemyId());
         }
-        if (enemy.x < this.positions.end) {
+        if (enemy.x < store.positionStart) {
           this.enemies[enemy.id].status = false;
           this.blocked = false;
         }
       },
 
       getNextEnemyId() {
-        const nonActiveEnemies = this.enemies.filter(enemy => !enemy.status)
+        const nonActiveEnemies = this.enemies.filter(enemy => !enemy.status);
         const index = Math.floor(Math.random() * 100) % nonActiveEnemies.length;
         return nonActiveEnemies[index].id;
       },
     },
   }
 </script>
-
 <style lang="less">
     .enemies-wrap {
         &:after {

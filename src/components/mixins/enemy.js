@@ -13,11 +13,16 @@ export default {
       h: 0,
       w: 0,
 
-      step: 4,
-      speed: 15,
+      step: 0,
+      speed: 0,
 
       relative: 12,
     }
+  },
+
+  created() {
+    this.speed = settings.scene.enemy.speed;
+    this.step = settings.scene.enemy.step;
   },
 
   computed: {
@@ -45,7 +50,6 @@ export default {
       default: false,
     },
     enemyId: Number,
-    positions: Object,
   },
 
   watch: {
@@ -63,7 +67,7 @@ export default {
      */
     activated(value) {
       if (value) {
-        this.x = this.positions.start;
+        this.x = store.positionEnd;
         this.move();
       } else {
         this.clearIntervals();
@@ -79,7 +83,7 @@ export default {
     },
 
     level() {
-      this.speed -= this.speed <= 14 ? 1 : this.speed <= 20 ? 2 : 4;
+      this.speed -= this.speed >= 6 ? 1 : 0.5;
     },
   },
 
